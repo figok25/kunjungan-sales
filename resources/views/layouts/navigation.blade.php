@@ -15,6 +15,15 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('stok-barang.index')" :active="request()->routeIs('stok-barang.*')">
+                        {{ __('Stok Barang') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('kategori-barang.index')" :active="request()->routeIs('kategori-barang.*')">
+                        {{ __('Kategori Barang') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('toko.index')" :active="request()->routeIs('toko.*')">
+                        {{ __('Toko') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -69,6 +78,15 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('stok-barang.index')" :active="request()->routeIs('stok-barang.*')">
+                {{ __('Stok Barang') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('kategori-barang.index')" :active="request()->routeIs('kategori-barang.*')">
+                {{ __('Kategori Barang') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('toko.index')" :active="request()->routeIs('toko.*')">
+                {{ __('Toko') }}
             </x-responsive-nav-link>
         </div>
 
