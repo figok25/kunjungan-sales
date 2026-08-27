@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\KategoriBarangController;
+use App\Http\Controllers\KunjunganController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StokBarangController;
 use App\Http\Controllers\TokoController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,6 +29,17 @@ Route::middleware('auth')->group(function () {
     Route::resource('kategori-barang', KategoriBarangController::class)->except(['show']);
 
     Route::resource('toko', TokoController::class)->except(['show']);
+
+    Route::middleware('owner_or_admin')->group(function () {
+        Route::resource('users', UserController::class)->except(['show']);
+    });
+
+    Route::get('/kunjungan', [KunjunganController::class, 'index'])->name('kunjungan.index');
+    Route::middleware('sales_only')->group(function () {
+        Route::get('/kunjungan/create', [KunjunganController::class, 'create'])->name('kunjungan.create');
+        Route::post('/kunjungan', [KunjunganController::class, 'store'])->name('kunjungan.store');
+    });
+    Route::get('/kunjungan/{kunjungan}', [KunjunganController::class, 'show'])->name('kunjungan.show');
 });
 
 require __DIR__.'/auth.php';

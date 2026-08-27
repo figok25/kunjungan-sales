@@ -24,6 +24,14 @@
                     <x-nav-link :href="route('toko.index')" :active="request()->routeIs('toko.*')">
                         {{ __('Toko') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('kunjungan.index')" :active="request()->routeIs('kunjungan.*')">
+                        {{ __('Kunjungan') }}
+                    </x-nav-link>
+                    @if (Auth::user()->isOwner() || Auth::user()->isAdmin())
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                            {{ __('Manajemen User') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -88,6 +96,14 @@
             <x-responsive-nav-link :href="route('toko.index')" :active="request()->routeIs('toko.*')">
                 {{ __('Toko') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('kunjungan.index')" :active="request()->routeIs('kunjungan.*')">
+                {{ __('Kunjungan') }}
+            </x-responsive-nav-link>
+            @if (Auth::user()->isOwner() || Auth::user()->isAdmin())
+                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                    {{ __('Manajemen User') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
