@@ -70,6 +70,10 @@ class TokoController extends Controller
 
     public function destroy(Toko $toko)
     {
+        if ($toko->kunjungans()->exists()) {
+            return back()->with('error', 'Toko tidak bisa dihapus karena sudah memiliki histori kunjungan.');
+        }
+
         $toko->delete();
 
         return redirect()->route('toko.index')->with('success', 'Toko berhasil dihapus.');

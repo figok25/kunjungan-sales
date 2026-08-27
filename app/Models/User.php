@@ -35,6 +35,11 @@ class User extends Authenticatable
         return $this->hasMany(Toko::class, 'sales_id');
     }
 
+    public function kunjungans()
+    {
+        return $this->hasMany(Kunjungan::class);
+    }
+
     public function isOwner(): bool
     {
         return $this->role === 'owner';

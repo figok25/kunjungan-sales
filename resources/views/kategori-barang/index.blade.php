@@ -22,7 +22,9 @@
                         <input type="text" name="search" value="{{ request('search') }}" class="border-gray-300 rounded-md shadow-sm text-sm">
                     </div>
                     <button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded-md text-sm">Filter</button>
-                    <a href="{{ route('kategori-barang.create') }}" class="ml-auto bg-indigo-600 text-white px-4 py-2 rounded-md text-sm">+ Tambah Kategori</a>
+                    @if (! auth()->user()->isSales())
+                        <a href="{{ route('kategori-barang.create') }}" class="ml-auto bg-teal text-white px-4 py-2 rounded-md text-sm">+ Tambah Kategori</a>
+                    @endif
                 </form>
             </div>
 
@@ -41,12 +43,16 @@
                                 <td class="px-4 py-3">{{ $kategori->nama }}</td>
                                 <td class="px-4 py-3 text-right">{{ $kategori->stok_barangs_count }}</td>
                                 <td class="px-4 py-3 text-right space-x-2 whitespace-nowrap">
-                                    <a href="{{ route('kategori-barang.edit', $kategori) }}" class="text-indigo-600 hover:underline">Edit</a>
-                                    <form action="{{ route('kategori-barang.destroy', $kategori) }}" method="POST" class="inline" onsubmit="return confirm('Hapus kategori ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:underline">Hapus</button>
-                                    </form>
+                                    @if (! auth()->user()->isSales())
+                                        <a href="{{ route('kategori-barang.edit', $kategori) }}" class="text-indigo-600 hover:underline">Edit</a>
+                                        <form action="{{ route('kategori-barang.destroy', $kategori) }}" method="POST" class="inline" onsubmit="return confirm('Hapus kategori ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:underline">Hapus</button>
+                                        </form>
+                                    @else
+                                        <span class="text-gray-400">-</span>
+                                    @endif
                                 </td>
                             </tr>
                         @empty

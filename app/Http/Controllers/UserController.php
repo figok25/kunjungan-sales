@@ -89,6 +89,10 @@ class UserController extends Controller
             return back()->with('error', 'Kamu tidak bisa menghapus akun sendiri.');
         }
 
+        if ($user->kunjungans()->exists()) {
+            return back()->with('error', 'User tidak bisa dihapus karena sudah memiliki histori kunjungan. Ubah role-nya saja jika ingin menonaktifkan akses.');
+        }
+
         $user->delete();
 
         return redirect()->route('users.index')->with('success', 'User berhasil dihapus.');

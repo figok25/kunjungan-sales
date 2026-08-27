@@ -90,6 +90,10 @@ class StokBarangController extends Controller
 
     public function destroy(StokBarang $stokBarang)
     {
+        if ($stokBarang->kunjunganDetails()->exists()) {
+            return back()->with('error', 'Barang tidak bisa dihapus karena sudah pernah dijual di histori kunjungan.');
+        }
+
         $stokBarang->delete();
 
         return redirect()->route('stok-barang.index')->with('success', 'Barang berhasil dihapus.');

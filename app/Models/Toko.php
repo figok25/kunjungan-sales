@@ -12,4 +12,9 @@ class Toko extends Model
     {
         return $this->belongsTo(User::class, 'sales_id');
     }
+
+    public function kunjungans()
+    {
+        return $this->hasMany(Kunjungan::class);
+    }
 }

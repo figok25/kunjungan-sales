@@ -11,6 +11,9 @@
             @if (session('success'))
                 <div class="bg-green-100 text-green-800 px-4 py-3 rounded">{{ session('success') }}</div>
             @endif
+            @if (session('error'))
+                <div class="bg-red-100 text-red-800 px-4 py-3 rounded">{{ session('error') }}</div>
+            @endif
 
             <div class="bg-white shadow-sm rounded-lg p-4">
                 <form method="GET" class="flex flex-wrap gap-3 items-end">

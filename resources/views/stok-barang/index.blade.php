@@ -13,6 +13,11 @@
                     {{ session('success') }}
                 </div>
             @endif
+            @if (session('error'))
+                <div class="bg-red-100 text-red-800 px-4 py-3 rounded">
+                    {{ session('error') }}
+                </div>
+            @endif
 
             <div class="bg-white shadow-sm rounded-lg p-4">
                 <form method="GET" class="flex flex-wrap gap-3 items-end">
@@ -32,7 +37,9 @@
                         </select>
                     </div>
                     <button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded-md text-sm">Filter</button>
-                    <a href="{{ route('stok-barang.create') }}" class="ml-auto bg-indigo-600 text-white px-4 py-2 rounded-md text-sm">+ Tambah Barang</a>
+                    @if (! auth()->user()->isSales())
+                        <a href="{{ route('stok-barang.create') }}" class="ml-auto bg-teal text-white px-4 py-2 rounded-md text-sm">+ Tambah Barang</a>
+                    @endif
                 </form>
             </div>
 
@@ -55,14 +62,16 @@
                                 <td class="px-4 py-3 text-right">{{ $barang->stok }}</td>
                                 <td class="px-4 py-3 text-right">Rp {{ number_format($barang->harga, 0, ',', '.') }}</td>
                                 <td class="px-4 py-3 text-right space-x-2 whitespace-nowrap">
-                                    <a href="{{ route('stok-barang.adjust', $barang) }}" class="text-emerald-600 hover:underline">Adjust Stok</a>
                                     <a href="{{ route('stok-barang.histori', $barang) }}" class="text-blue-600 hover:underline">Histori</a>
-                                    <a href="{{ route('stok-barang.edit', $barang) }}" class="text-indigo-600 hover:underline">Edit</a>
-                                    <form action="{{ route('stok-barang.destroy', $barang) }}" method="POST" class="inline" onsubmit="return confirm('Hapus barang ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:underline">Hapus</button>
-                                    </form>
+                                    @if (! auth()->user()->isSales())
+                                        <a href="{{ route('stok-barang.adjust', $barang) }}" class="text-emerald-600 hover:underline">Adjust Stok</a>
+                                        <a href="{{ route('stok-barang.edit', $barang) }}" class="text-indigo-600 hover:underline">Edit</a>
+                                        <form action="{{ route('stok-barang.destroy', $barang) }}" method="POST" class="inline" onsubmit="return confirm('Hapus barang ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:underline">Hapus</button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @empty

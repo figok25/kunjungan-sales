@@ -17,4 +17,9 @@ class StokBarang extends Model
     {
         return $this->hasMany(StokMovement::class)->latest();
     }
+
+    public function kunjunganDetails()
+    {
+        return $this->hasMany(KunjunganDetail::class);
+    }
 }
