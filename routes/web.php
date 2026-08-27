@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\KategoriBarangController;
 use App\Http\Controllers\KunjunganController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StokBarangController;
 use App\Http\Controllers\TokoController;
@@ -40,6 +41,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/kunjungan', [KunjunganController::class, 'store'])->name('kunjungan.store');
     });
     Route::get('/kunjungan/{kunjungan}', [KunjunganController::class, 'show'])->name('kunjungan.show');
+
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/export-pdf', [LaporanController::class, 'exportPdf'])->name('laporan.export-pdf');
+    Route::get('/laporan/export-excel', [LaporanController::class, 'exportExcel'])->name('laporan.export-excel');
 });
 
 require __DIR__.'/auth.php';

@@ -27,6 +27,9 @@
                     <x-nav-link :href="route('kunjungan.index')" :active="request()->routeIs('kunjungan.*')">
                         {{ __('Kunjungan') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('laporan.index')" :active="request()->routeIs('laporan.*')">
+                        {{ __('Laporan') }}
+                    </x-nav-link>
                     @if (Auth::user()->isOwner() || Auth::user()->isAdmin())
                         <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
                             {{ __('Manajemen User') }}
@@ -98,6 +101,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('kunjungan.index')" :active="request()->routeIs('kunjungan.*')">
                 {{ __('Kunjungan') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('laporan.index')" :active="request()->routeIs('laporan.*')">
+                {{ __('Laporan') }}
             </x-responsive-nav-link>
             @if (Auth::user()->isOwner() || Auth::user()->isAdmin())
                 <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
