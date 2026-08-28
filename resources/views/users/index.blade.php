@@ -36,6 +36,7 @@
             </div>
 
             <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+                <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200 text-sm">
                     <thead class="bg-gray-50">
                         <tr>
@@ -73,6 +74,7 @@
                         @endforelse
                     </tbody>
                 </table>
+                </div>
                 <div class="px-4 py-3">
                     {{ $users->links() }}
                 </div>

@@ -9,8 +9,13 @@ class Kunjungan extends Model
     protected $fillable = [
         'toko_id',
         'user_id',
+        'tanggal_kunjungan',
         'catatan',
         'total',
+    ];
+
+    protected $casts = [
+        'tanggal_kunjungan' => 'datetime',
     ];
 
     public function toko()

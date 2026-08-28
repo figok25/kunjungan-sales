@@ -34,7 +34,7 @@
         <tbody>
             @forelse ($details as $detail)
                 <tr>
-                    <td>{{ $detail->kunjungan->created_at->format('d-m-Y H:i') }}</td>
+                    <td>{{ $detail->kunjungan->tanggal_kunjungan->format('d-m-Y H:i') }}</td>
                     <td>{{ $detail->kunjungan->toko->nama_toko ?? '-' }}</td>
                     <td>{{ $detail->kunjungan->sales->name ?? '-' }}</td>
                     <td>{{ $detail->stokBarang->nama_barang ?? '-' }}</td>

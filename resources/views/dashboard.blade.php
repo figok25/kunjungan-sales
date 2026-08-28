@@ -50,6 +50,7 @@
                 <p class="text-sm font-medium text-ink">Kunjungan Terbaru</p>
                 <a href="{{ route('kunjungan.index') }}" class="text-sm text-teal hover:underline">Lihat semua &rarr;</a>
             </div>
+            <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-100 text-sm">
                 <thead class="bg-gray-50">
                     <tr>
@@ -62,7 +63,7 @@
                 <tbody class="divide-y divide-gray-50">
                     @forelse ($kunjunganTerbaru as $kunjungan)
                         <tr class="hover:bg-gray-50">
-                            <td class="px-5 py-3">{{ $kunjungan->created_at->format('d M Y H:i') }}</td>
+                            <td class="px-5 py-3">{{ $kunjungan->tanggal_kunjungan->format('d M Y H:i') }}</td>
                             <td class="px-5 py-3">
                                 <a href="{{ route('kunjungan.show', $kunjungan) }}" class="text-teal hover:underline">
                                     {{ $kunjungan->toko->nama_toko ?? '-' }}
@@ -78,6 +79,7 @@
                     @endforelse
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 

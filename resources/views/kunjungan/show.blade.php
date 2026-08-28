@@ -25,7 +25,7 @@
                     </div>
                     <div>
                         <p class="text-gray-500">Tanggal</p>
-                        <p class="font-medium">{{ $kunjungan->created_at->format('d M Y H:i') }}</p>
+                        <p class="font-medium">{{ $kunjungan->tanggal_kunjungan->format('d M Y H:i') }}</p>
                     </div>
                     <div>
                         <p class="text-gray-500">Total Transaksi</p>
@@ -42,6 +42,7 @@
             </div>
 
             <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+                <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200 text-sm">
                     <thead class="bg-gray-50">
                         <tr>
@@ -74,6 +75,7 @@
                         </tfoot>
                     @endif
                 </table>
+                </div>
             </div>
 
             <a href="{{ route('kunjungan.index') }}" class="text-sm text-indigo-600 hover:underline">&larr; Kembali ke Daftar Kunjungan</a>

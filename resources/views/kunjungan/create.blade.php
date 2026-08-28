@@ -33,6 +33,12 @@
                         </div>
 
                         <div>
+                            <label class="block text-sm text-gray-600 mb-1">Tanggal & Waktu Kunjungan</label>
+                            <input type="datetime-local" name="tanggal_kunjungan" value="{{ old('tanggal_kunjungan', now()->format('Y-m-d\TH:i')) }}" class="w-full border-gray-300 rounded-md shadow-sm">
+                            <p class="text-xs text-gray-500 mt-1">Default waktu sekarang, bisa diubah kalau mencatat kunjungan yang sudah lewat.</p>
+                        </div>
+
+                        <div>
                             <label class="block text-sm text-gray-600 mb-1">Catatan (opsional)</label>
                             <textarea name="catatan" rows="2" class="w-full border-gray-300 rounded-md shadow-sm" placeholder="mis. survei toko baru, follow-up pembayaran, dsb.">{{ old('catatan') }}</textarea>
                         </div>
@@ -49,16 +55,18 @@
 
                             <div class="space-y-2">
                                 <template x-for="(item, index) in items" :key="index">
-                                    <div class="flex gap-2 items-start">
-                                        <select :name="`items[${index}][stok_barang_id]`" x-model.number="item.stok_barang_id" class="flex-1 border-gray-300 rounded-md shadow-sm text-sm">
+                                    <div class="flex flex-col sm:flex-row gap-2 sm:items-start border border-gray-100 rounded-md p-2 sm:border-0 sm:p-0">
+                                        <select :name="`items[${index}][stok_barang_id]`" x-model.number="item.stok_barang_id" class="flex-1 min-w-0 border-gray-300 rounded-md shadow-sm text-sm">
                                             <option value="">-- Pilih Barang --</option>
                                             <template x-for="barang in barangList" :key="barang.id">
                                                 <option :value="barang.id" x-text="`${barang.nama} (stok ${barang.stok}, Rp ${barang.harga.toLocaleString('id-ID')})`"></option>
                                             </template>
                                         </select>
-                                        <input type="number" min="1" :name="`items[${index}][jumlah]`" x-model.number="item.jumlah" placeholder="Qty" class="w-24 border-gray-300 rounded-md shadow-sm text-sm">
-                                        <span class="text-sm text-gray-500 w-32 pt-2" x-text="formatSubtotal(item)"></span>
-                                        <button type="button" @click="removeItem(index)" class="text-red-600 text-sm pt-2">Hapus</button>
+                                        <div class="flex gap-2 items-center">
+                                            <input type="number" min="1" :name="`items[${index}][jumlah]`" x-model.number="item.jumlah" placeholder="Qty" class="w-20 sm:w-24 border-gray-300 rounded-md shadow-sm text-sm">
+                                            <span class="text-sm text-gray-500 flex-1 sm:w-32" x-text="formatSubtotal(item)"></span>
+                                            <button type="button" @click="removeItem(index)" class="text-red-600 text-sm shrink-0">Hapus</button>
+                                        </div>
                                     </div>
                                 </template>
                             </div>

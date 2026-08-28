@@ -25,15 +25,15 @@ class DashboardController extends Controller
 
         $awalBulan = Carbon::now()->startOfMonth();
 
-        $kunjunganBulanIni = (clone $kunjunganQuery)->where('created_at', '>=', $awalBulan)->count();
-        $penjualanBulanIni = (clone $detailQuery)->whereHas('kunjungan', fn ($q) => $q->where('created_at', '>=', $awalBulan))->sum('subtotal');
+        $kunjunganBulanIni = (clone $kunjunganQuery)->where('tanggal_kunjungan', '>=', $awalBulan)->count();
+        $penjualanBulanIni = (clone $detailQuery)->whereHas('kunjungan', fn ($q) => $q->where('tanggal_kunjungan', '>=', $awalBulan))->sum('subtotal');
         $totalToko = $user->isSales() ? Toko::where('sales_id', $user->id)->count() : Toko::count();
         $stokMenipis = StokBarang::where('stok', '<=', 10)->count();
 
         $chartPenjualan = $this->chartPenjualan14Hari(clone $detailQuery);
         $chartKategori = $this->chartKategoriBulanIni(clone $detailQuery, $awalBulan);
 
-        $kunjunganTerbaru = (clone $kunjunganQuery)->with(['toko', 'sales'])->latest()->take(8)->get();
+        $kunjunganTerbaru = (clone $kunjunganQuery)->with(['toko', 'sales'])->orderByDesc('tanggal_kunjungan')->take(8)->get();
 
         return view('dashboard', [
             'kunjunganBulanIni' => $kunjunganBulanIni,
@@ -51,10 +51,10 @@ class DashboardController extends Controller
         $mulai = Carbon::now()->subDays(13)->startOfDay();
 
         $rows = (clone $detailQuery)
-            ->whereHas('kunjungan', fn ($q) => $q->where('created_at', '>=', $mulai))
-            ->with('kunjungan:id,created_at')
+            ->whereHas('kunjungan', fn ($q) => $q->where('tanggal_kunjungan', '>=', $mulai))
+            ->with('kunjungan:id,tanggal_kunjungan')
             ->get()
-            ->groupBy(fn ($detail) => $detail->kunjungan->created_at->format('Y-m-d'));
+            ->groupBy(fn ($detail) => $detail->kunjungan->tanggal_kunjungan->format('Y-m-d'));
 
         $labels = [];
         $data = [];
@@ -72,7 +72,7 @@ class DashboardController extends Controller
     private function chartKategoriBulanIni($detailQuery, $awalBulan): array
     {
         $rows = (clone $detailQuery)
-            ->whereHas('kunjungan', fn ($q) => $q->where('created_at', '>=', $awalBulan))
+            ->whereHas('kunjungan', fn ($q) => $q->where('tanggal_kunjungan', '>=', $awalBulan))
             ->with('stokBarang.kategori')
             ->get()
             ->groupBy(fn ($detail) => $detail->stokBarang->kategori->nama ?? 'Lainnya');

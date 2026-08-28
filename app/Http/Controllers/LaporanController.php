@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\KategoriBarang;
+use App\Models\Kunjungan;
 use App\Models\KunjunganDetail;
 use App\Models\Toko;
 use App\Models\User;
@@ -28,11 +29,11 @@ class LaporanController extends Controller
             }
 
             if ($request->filled('dari_tanggal')) {
-                $q->whereDate('created_at', '>=', $request->dari_tanggal);
+                $q->whereDate('tanggal_kunjungan', '>=', $request->dari_tanggal);
             }
 
             if ($request->filled('sampai_tanggal')) {
-                $q->whereDate('created_at', '<=', $request->sampai_tanggal);
+                $q->whereDate('tanggal_kunjungan', '<=', $request->sampai_tanggal);
             }
         });
 
@@ -45,9 +46,16 @@ class LaporanController extends Controller
         return $query;
     }
 
+    private function orderByTanggalKunjungan($query)
+    {
+        return $query->orderByDesc(
+            Kunjungan::select('tanggal_kunjungan')->whereColumn('kunjungans.id', 'kunjungan_details.kunjungan_id')
+        );
+    }
+
     public function index(Request $request)
     {
-        $details = $this->filteredQuery($request)->latest()->paginate(20)->withQueryString();
+        $details = $this->orderByTanggalKunjungan($this->filteredQuery($request))->paginate(20)->withQueryString();
 
         $summary = (clone $this->filteredQuery($request))->selectRaw('SUM(jumlah) as total_qty, SUM(subtotal) as total_penjualan')->first();
 
@@ -60,7 +68,7 @@ class LaporanController extends Controller
 
     public function exportPdf(Request $request)
     {
-        $details = $this->filteredQuery($request)->latest()->get();
+        $details = $this->orderByTanggalKunjungan($this->filteredQuery($request))->get();
         $summary = (clone $this->filteredQuery($request))->selectRaw('SUM(jumlah) as total_qty, SUM(subtotal) as total_penjualan')->first();
 
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('laporan.pdf', compact('details', 'summary', 'request'));
@@ -70,7 +78,7 @@ class LaporanController extends Controller
 
     public function exportExcel(Request $request)
     {
-        $details = $this->filteredQuery($request)->latest()->get();
+        $details = $this->orderByTanggalKunjungan($this->filteredQuery($request))->get();
 
         return \Maatwebsite\Excel\Facades\Excel::download(
             new \App\Exports\LaporanPenjualanExport($details),

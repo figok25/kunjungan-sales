@@ -35,7 +35,7 @@ class LaporanPenjualanExport implements FromCollection, WithHeadings, WithMappin
     public function map($detail): array
     {
         return [
-            $detail->kunjungan->created_at->format('d-m-Y H:i'),
+            $detail->kunjungan->tanggal_kunjungan->format('d-m-Y H:i'),
             $detail->kunjungan->toko->nama_toko ?? '-',
             $detail->kunjungan->sales->name ?? '-',
             $detail->stokBarang->nama_barang ?? '-',

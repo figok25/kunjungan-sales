@@ -29,7 +29,7 @@ class KunjunganController extends Controller
             $query->where('toko_id', $request->toko_id);
         }
 
-        $kunjungans = $query->latest()->paginate(15)->withQueryString();
+        $kunjungans = $query->orderByDesc('tanggal_kunjungan')->paginate(15)->withQueryString();
         $tokos = Toko::orderBy('nama_toko')->get();
         $salesList = User::where('role', 'sales')->orderBy('name')->get();
 
@@ -48,6 +48,7 @@ class KunjunganController extends Controller
     {
         $validated = $request->validate([
             'toko_id' => ['required', 'exists:tokos,id'],
+            'tanggal_kunjungan' => ['required', 'date'],
             'catatan' => ['nullable', 'string'],
             'items' => ['nullable', 'array'],
             'items.*.stok_barang_id' => ['required_with:items', 'exists:stok_barangs,id'],
@@ -60,6 +61,7 @@ class KunjunganController extends Controller
             $kunjungan = Kunjungan::create([
                 'toko_id' => $validated['toko_id'],
                 'user_id' => $request->user()->id,
+                'tanggal_kunjungan' => $validated['tanggal_kunjungan'],
                 'catatan' => $validated['catatan'] ?? null,
                 'total' => 0,
             ]);

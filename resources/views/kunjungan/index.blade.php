@@ -46,6 +46,7 @@
             </div>
 
             <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+                <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200 text-sm">
                     <thead class="bg-gray-50">
                         <tr>
@@ -59,7 +60,7 @@
                     <tbody class="divide-y divide-gray-100">
                         @forelse ($kunjungans as $kunjungan)
                             <tr>
-                                <td class="px-4 py-3">{{ $kunjungan->created_at->format('d M Y H:i') }}</td>
+                                <td class="px-4 py-3">{{ $kunjungan->tanggal_kunjungan->format('d M Y H:i') }}</td>
                                 <td class="px-4 py-3">{{ $kunjungan->toko->nama_toko ?? '-' }}</td>
                                 <td class="px-4 py-3">{{ $kunjungan->sales->name ?? '-' }}</td>
                                 <td class="px-4 py-3 text-right">Rp {{ number_format($kunjungan->total, 0, ',', '.') }}</td>
@@ -74,6 +75,7 @@
                         @endforelse
                     </tbody>
                 </table>
+                </div>
                 <div class="px-4 py-3">
                     {{ $kunjungans->links() }}
                 </div>

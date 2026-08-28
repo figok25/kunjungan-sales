@@ -41,7 +41,7 @@
 
                     <div>
                         <label class="block text-sm text-gray-600 mb-1">Harga</label>
-                        <input type="number" min="0" step="0.01" name="harga" value="{{ old('harga') }}" class="w-full border-gray-300 rounded-md shadow-sm">
+                        <x-currency-input name="harga" :value="old('harga')" required />
                         @error('harga') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                     </div>
 
